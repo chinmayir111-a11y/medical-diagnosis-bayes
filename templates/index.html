@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Diagnosis Prediction System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Top navigation bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-icon">&#10084;</span>
+            <span>Cardio<span class="logo-accent">Bayes</span></span>
+        </div>
+        <div class="nav-links">
+            <a href="#calculator">Calculator</a>
+            <a href="#formula">Formula</a>
+            <a href="#terms">Key Terms</a>
+        </div>
+    </nav>
+
+    <!-- Header section -->
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">&#129658; Heart Disease Risk Calculator</span>
+            <h1>Medical Diagnosis <br><span>Prediction System</span></h1>
+            <p>
+                Find the probability of heart disease after a positive test result
+                using <strong>Bayes' Theorem</strong>.
+            </p>
+
+            <!-- Simple flow: Prior -> Test -> Posterior -->
+            <div class="flow">
+                <span class="flow-step">Prior</span>
+                <span class="flow-arrow">&#10140;</span>
+                <span class="flow-step">Positive Test</span>
+                <span class="flow-arrow">&#10140;</span>
+                <span class="flow-step highlight">Posterior</span>
+            </div>
+        </div>
+
+        <!-- Animated heartbeat (ECG) line -->
+        <svg class="ecg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <polyline points="0,60 300,60 340,60 360,20 380,100 400,10 420,90 440,60 700,60 740,60 760,25 780,95 800,15 820,85 840,60 1200,60" />
+        </svg>
+    </header>
+
+    <main class="container" id="calculator">
+
+        <div class="grid">
+
+            <!-- Left: input form -->
+            <section class="card">
+                <h2 class="card-title"><span class="step">1</span> Patient &amp; Test Details</h2>
+
+                <form method="POST" action="/#calculator">
+
+                    <div class="field">
+                        <label for="prior"><span class="field-icon">&#128100;</span> Initial Probability of Heart Disease (Prior)</label>
+                        <div class="input-box">
+                            <input type="number" id="prior" name="prior" value="{{ '%g' % prior }}" min="0" max="100" step="any" required>
+                            <span class="unit">%</span>
+                        </div>
+                        <small>Chance of disease before the test</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="sensitivity"><span class="field-icon">&#127919;</span> Test Sensitivity</label>
+                        <div class="input-box">
+                            <input type="number" id="sensitivity" name="sensitivity" value="{{ '%g' % sensitivity }}" min="0" max="100" step="any" required>
+                            <span class="unit">%</span>
+                        </div>
+                        <small>Test is positive when disease is present</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="specificity"><span class="field-icon">&#128737;</span> Test Specificity</label>
+                        <div class="input-box">
+                            <input type="number" id="specificity" name="specificity" value="{{ '%g' % specificity }}" min="0" max="100" step="any" required>
+                            <span class="unit">%</span>
+                        </div>
+                        <small>Test is negative when disease is absent</small>
+                    </div>
+
+                    <div class="buttons">
+                        <button type="submit" class="btn btn-primary">&#10084; Calculate Probability</button>
+                        <a href="/" class="btn btn-outline">Clear</a>
+                    </div>
+                </form>
+
+                {% if error %}
+                <div class="error-box">&#9888; {{ error }}</div>
+                {% endif %}
+            </section>
+
+            <!-- Right: result -->
+            <section class="card result-card">
+                <h2 class="card-title"><span class="step">2</span> Result</h2>
+
+                {% if result is not none %}
+                    <div class="result-show">
+                        <p class="result-label">Probability of heart disease after a positive test</p>
+
+                        <div class="result-circle">
+                            <span class="pulse-ring"></span>
+                            <p class="big-number">{{ result }}<span>%</span></p>
+                        </div>
+
+                        <!-- Before vs after comparison bars -->
+                        <div class="bar-group">
+                            <div class="bar-label">
+                                <span>Before test (Prior)</span>
+                                <strong>{{ '%g' % prior }}%</strong>
+                            </div>
+                            <div class="bar"><div class="bar-fill light" style="width: {{ prior }}%"></div></div>
+
+                            <div class="bar-label">
+                                <span>After positive test (Posterior)</span>
+                                <strong>{{ result }}%</strong>
+                            </div>
+                            <div class="bar"><div class="bar-fill" style="width: {{ result }}%"></div></div>
+                        </div>
+
+                        <div class="explain">
+                            <p>
+                                The patient started with a <strong>{{ '%g' % prior }}%</strong> chance of heart disease.
+                                After a <strong>positive</strong> test, the chance becomes about
+                                <strong>{{ result }}%</strong>.
+                            </p>
+                            <p>
+                                A positive test increases the probability, but it does not confirm the
+                                disease, because the test can also give false positive results.
+                            </p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon">&#9829;</div>
+                        <p>Enter the values and click <strong>Calculate Probability</strong> to see the result here.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+        </div>
+
+        <!-- Formula -->
+        <section class="card" id="formula">
+            <h2 class="card-title"><span class="title-icon">&#129518;</span> Bayes' Theorem Formula</h2>
+            <div class="formula">
+                <p><strong>P(Disease | Positive)</strong> = (Sensitivity &times; Prior) &divide; Evidence</p>
+                <p><strong>Evidence</strong> = (Sensitivity &times; Prior) + ((1 &minus; Specificity) &times; (1 &minus; Prior))</p>
+            </div>
+        </section>
+
+        <!-- Key terms -->
+        <section class="card" id="terms">
+            <h2 class="card-title"><span class="title-icon">&#128218;</span> Key Terms</h2>
+            <div class="terms">
+                <div class="term">
+                    <div class="term-icon">&#128100;</div>
+                    <h3>Prior</h3>
+                    <p>The chance of having the disease before the test.</p>
+                </div>
+                <div class="term">
+                    <div class="term-icon">&#127919;</div>
+                    <h3>Sensitivity</h3>
+                    <p>The chance the test is positive when the person has the disease.</p>
+                </div>
+                <div class="term">
+                    <div class="term-icon">&#128737;</div>
+                    <h3>Specificity</h3>
+                    <p>The chance the test is negative when the person does not have the disease.</p>
+                </div>
+                <div class="term">
+                    <div class="term-icon">&#128202;</div>
+                    <h3>Evidence</h3>
+                    <p>The overall chance of getting a positive test result.</p>
+                </div>
+                <div class="term">
+                    <div class="term-icon">&#10084;</div>
+                    <h3>Posterior</h3>
+                    <p>The updated chance of having the disease after a positive test.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <strong>&#9888; Disclaimer:</strong> This website does not diagnose heart disease,
+            is not clinically validated, and does not replace a qualified doctor.
+        </div>
+
+    </main>
+
+    <footer>
+        <span class="footer-heart">&#10084;</span>
+        Medical Diagnosis Prediction System using Bayes' Theorem &middot; B.Tech Computer Engineering Project
+    </footer>
+
+</body>
+</html>

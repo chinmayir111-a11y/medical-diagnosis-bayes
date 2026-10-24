@@ -1,0 +1,659 @@
+/* ---------- Colours used on the whole page ---------- */
+:root {
+    --blue: #0b6bcb;
+    --blue-dark: #084b8f;
+    --teal: #0fb5ae;
+    --teal-light: #e0f7f5;
+    --blue-light: #e6f1fc;
+    --red: #e53950;
+    --red-light: #fdecee;
+    --text: #1b2a3a;
+    --muted: #64748b;
+    --bg: #f3f8fb;
+    --white: #ffffff;
+    --border: #dbe8f2;
+    --gradient: linear-gradient(135deg, #0b6bcb, #0fb5ae);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: "Poppins", Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* ---------- Navigation bar ---------- */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 32px;
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--blue-dark);
+}
+
+.logo-accent {
+    color: var(--teal);
+}
+
+.logo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: var(--gradient);
+    color: var(--white);
+    font-size: 18px;
+    animation: heartbeat 1.4s infinite;
+}
+
+.nav-links a {
+    margin-left: 22px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: var(--teal);
+}
+
+/* ---------- Header ---------- */
+.hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--gradient);
+    color: var(--white);
+    text-align: center;
+    padding: 56px 16px 120px;
+}
+
+/* Soft circles in the background */
+.hero::before,
+.hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.08);
+    animation: float 8s ease-in-out infinite;
+}
+
+.hero::before {
+    width: 320px;
+    height: 320px;
+    top: -120px;
+    left: -80px;
+}
+
+.hero::after {
+    width: 240px;
+    height: 240px;
+    bottom: -60px;
+    right: -40px;
+    animation-delay: 2s;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.8s ease-out;
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    margin-bottom: 16px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.hero h1 {
+    margin: 0 0 12px;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.hero h1 span {
+    color: #c9fff9;
+}
+
+.hero p {
+    margin: 0 auto;
+    max-width: 580px;
+    font-size: 17px;
+    opacity: 0.95;
+}
+
+/* Prior -> Positive Test -> Posterior */
+.flow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 26px;
+}
+
+.flow-step {
+    padding: 8px 18px;
+    border-radius: 24px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.flow-step.highlight {
+    background-color: var(--white);
+    color: var(--blue);
+    font-weight: 600;
+}
+
+.flow-arrow {
+    opacity: 0.8;
+}
+
+/* Heartbeat line at the bottom of the header */
+.ecg {
+    position: absolute;
+    left: 0;
+    bottom: 50px;
+    width: 100%;
+    height: 70px;
+    opacity: 0.45;
+}
+
+.ecg polyline {
+    fill: none;
+    stroke: var(--white);
+    stroke-width: 3;
+    stroke-linejoin: round;
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 1600;
+    animation: draw 3.5s linear infinite;
+}
+
+/* ---------- Main layout ---------- */
+.container {
+    position: relative;
+    z-index: 2;
+    max-width: 1020px;
+    margin: -70px auto 0;   /* pulls the cards up over the header */
+    padding: 0 16px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+/* ---------- Cards ---------- */
+.card {
+    background-color: var(--white);
+    border-radius: 18px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 30px rgba(11, 107, 203, 0.08);
+    border: 1px solid var(--border);
+    animation: fadeUp 0.7s ease-out both;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(11, 107, 203, 0.14);
+}
+
+.grid .card:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 20px;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--blue-dark);
+}
+
+.step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--gradient);
+    color: var(--white);
+    font-size: 14px;
+}
+
+.title-icon {
+    font-size: 22px;
+}
+
+/* ---------- Form ---------- */
+.field {
+    margin-bottom: 18px;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.field-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background-color: var(--teal-light);
+    font-size: 14px;
+}
+
+.input-box {
+    position: relative;
+}
+
+input {
+    width: 100%;
+    padding: 12px 40px 12px 14px;
+    font-size: 16px;
+    font-family: inherit;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background-color: #f8fbfd;
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+input:hover {
+    border-color: #b6d4ec;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--teal);
+    background-color: var(--white);
+    box-shadow: 0 0 0 4px rgba(15, 181, 174, 0.15);
+}
+
+.unit {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--teal);
+    font-weight: 600;
+}
+
+small {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 12.5px;
+}
+
+/* ---------- Buttons ---------- */
+.buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn {
+    padding: 13px 22px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    border-radius: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: transform 0.15s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    flex: 1;
+    background: var(--gradient);
+    color: var(--white);
+    border: none;
+    box-shadow: 0 6px 16px rgba(11, 107, 203, 0.3);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 10px 22px rgba(11, 107, 203, 0.4);
+}
+
+.btn-outline {
+    background-color: var(--white);
+    color: var(--blue);
+    border: 1.5px solid var(--blue);
+}
+
+.btn-outline:hover {
+    background-color: var(--blue-light);
+}
+
+/* ---------- Error message ---------- */
+.error-box {
+    margin-top: 18px;
+    padding: 12px 14px;
+    background-color: var(--red-light);
+    color: var(--red);
+    border-left: 4px solid var(--red);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    animation: shake 0.4s;
+}
+
+/* ---------- Result ---------- */
+.result-show {
+    text-align: center;
+    animation: fadeUp 0.6s ease-out;
+}
+
+.result-label {
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* Circle around the big result number */
+.result-circle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 170px;
+    height: 170px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    background: var(--gradient);
+    box-shadow: 0 10px 30px rgba(15, 181, 174, 0.35);
+    animation: popIn 0.6s ease-out;
+}
+
+.pulse-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid var(--teal);
+    animation: ripple 2s ease-out infinite;
+}
+
+.big-number {
+    margin: 0;
+    font-size: 46px;
+    font-weight: 700;
+    color: var(--white);
+}
+
+.big-number span {
+    font-size: 24px;
+}
+
+.bar-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13.5px;
+    margin-bottom: 6px;
+}
+
+.bar {
+    height: 12px;
+    background-color: var(--blue-light);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 14px;
+}
+
+.bar-fill {
+    height: 100%;
+    background: var(--gradient);
+    border-radius: 6px;
+    animation: grow 1.2s ease-out;
+}
+
+.bar-fill.light {
+    background: #9cc9ef;
+}
+
+.explain {
+    text-align: left;
+    background-color: var(--teal-light);
+    border-radius: 12px;
+    padding: 4px 16px;
+    font-size: 14px;
+}
+
+/* Shown before the user calculates */
+.empty-state {
+    text-align: center;
+    padding: 50px 10px;
+    color: var(--muted);
+}
+
+.empty-icon {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background-color: var(--red-light);
+    color: var(--red);
+    font-size: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: heartbeat 1.4s infinite;
+}
+
+/* ---------- Formula ---------- */
+.formula {
+    background-color: var(--blue-light);
+    border-left: 4px solid var(--teal);
+    border-radius: 12px;
+    padding: 8px 18px;
+    font-size: 15px;
+}
+
+/* ---------- Key terms ---------- */
+.terms {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+}
+
+.term {
+    background-color: #f8fbfd;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 14px;
+    text-align: center;
+    transition: transform 0.25s, background-color 0.25s, border-color 0.25s;
+}
+
+.term:hover {
+    transform: translateY(-5px);
+    background-color: var(--white);
+    border-color: var(--teal);
+}
+
+.term-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 10px;
+    border-radius: 14px;
+    background-color: var(--teal-light);
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.term h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    color: var(--blue-dark);
+}
+
+.term p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* ---------- Disclaimer and footer ---------- */
+.disclaimer {
+    background-color: #fff8e6;
+    border: 1px solid #ffe08a;
+    color: #6d4c00;
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+footer {
+    text-align: center;
+    padding: 22px 16px;
+    color: var(--white);
+    font-size: 13px;
+    background: var(--gradient);
+}
+
+.footer-heart {
+    display: inline-block;
+    margin-right: 6px;
+    animation: heartbeat 1.4s infinite;
+}
+
+/* ---------- Animations ---------- */
+
+/* Heart beating */
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    15%      { transform: scale(1.15); }
+    30%      { transform: scale(1); }
+    45%      { transform: scale(1.1); }
+}
+
+/* Heartbeat line being drawn */
+@keyframes draw {
+    to { stroke-dashoffset: 0; }
+}
+
+/* Background circles moving slowly */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(20px); }
+}
+
+/* Content sliding up when the page loads */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Result circle popping in */
+@keyframes popIn {
+    from { transform: scale(0.6); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+/* Ring spreading out from the result circle */
+@keyframes ripple {
+    from { transform: scale(1); opacity: 0.8; }
+    to   { transform: scale(1.35); opacity: 0; }
+}
+
+/* Bars filling from left to right */
+@keyframes grow {
+    from { width: 0; }
+}
+
+/* Error box shaking */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25%      { transform: translateX(-6px); }
+    75%      { transform: translateX(6px); }
+}
+
+/* Turn off animations for users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ---------- Mobile screens ---------- */
+@media (max-width: 760px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .navbar {
+        padding: 12px 16px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+}
